@@ -1,7 +1,8 @@
 const express = require('express')
 const mysql = require('mysql')
+const path = require('path')
 const app = express()
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
 var connection = mysql.createConnection({
     host : 'sql9.freemysqlhosting.net',
@@ -10,7 +11,11 @@ var connection = mysql.createConnection({
     database: 'sql9381937'
 });
 
-app.get('/', (req, res) => {
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+app.get('/budget', (req, res) => {
   connection.connect();
     connection.query('SELECT * FROM sql9381937.budget_table', function (error, results, fields) {
         connection.end();
